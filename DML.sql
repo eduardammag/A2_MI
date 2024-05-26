@@ -60,11 +60,11 @@ VALUES
 -- Inserir dados fictícios na tabela Pagamento
 INSERT INTO Pagamento (PagtoID, PagtoValor, PagtoData, FuncID)
 VALUES 
-(1, 3000.00, '2024-02-05', 1),
-(2, 3200.00, '2024-02-05', 2),
-(3, 3400.00, '2024-02-05', 3),
-(4, 3600.00, '2024-02-05', 4),
-(5, 3800.00, '2024-02-05', 5);
+(2001, 3000.00, '2024-02-05', 1),
+(2002, 3200.00, '2024-02-05', 2),
+(2003, 3400.00, '2024-02-05', 3),
+(2004, 3600.00, '2024-02-05', 4),
+(2005, 3800.00, '2024-02-05', 5);
 
 -- Inserir dados fictícios na tabela Exame
 INSERT INTO Exame (Status, ExameID, DtHrIni, DtHrFim, AlunoID, FuncID)
