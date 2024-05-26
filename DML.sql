@@ -83,10 +83,10 @@ VALUES
 -- Inserir dados fictícios na tabela ExamePratico
 INSERT INTO ExamePratico (ExameID, IDVeiculo)
 VALUES 
-(7, 4),
-(8, 6),
-(9, 1),
-(10, 1);
+(7, 1004),
+(8, 1006),
+(9, 1001),
+(10, 1001);
 
 -- Inserir dados fictícios na tabela ExameTeorica
 INSERT INTO ExameTeorica (ExameID, IDSala)
@@ -152,8 +152,8 @@ VALUES
 -- Inserir dados fictícios na tabela VeiculoAula
 INSERT INTO VeiculoAula (DtHrInicio, DtHrFim, AulaID, IDVeiculo)
 VALUES 
-('2024-01-31 15:00:00', '2024-01-31 16:00:00', 4, 2),
-('2024-02-10 17:00:00', '2024-02-10 18:00:00', 5, 1);
+('2024-01-31 15:00:00', '2024-01-31 16:00:00', 4, 1002),
+('2024-02-10 17:00:00', '2024-02-10 18:00:00', 5, 1001);
 
 -- Inserir dados fictícios na tabela AulaTAluno
 INSERT INTO AulaTAluno (PresencaAluno, AulaID, AlunoID)
