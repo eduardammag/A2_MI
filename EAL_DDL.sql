@@ -1,3 +1,9 @@
+Drop schema if exists oper_eal cascade;
+create schema oper_eal;
+
+set search_path=oper_eal;
+
+
 CREATE TABLE Aluno
 (
     AlunoCPF CHAR(11) NOT NULL,
