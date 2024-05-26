@@ -1,3 +1,5 @@
+set search_path=oper_eal;
+
 -- Inserir dados fictícios na tabela Aluno
 INSERT INTO Aluno (AlunoCPF, AlunoSenha, AlunoNome, AlunoEmail, AlunoCelular, DataNascimento, Logradouro, Municipio, Bairro, Estado, AlunoID)
 VALUES 
