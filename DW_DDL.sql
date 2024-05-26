@@ -4,7 +4,7 @@ create schema dw_eal;
 set search_path=dw_eal;
 
 CREATE TABLE CALENDARIO (
-    CalendarioKey INT NOT NULL,
+    CalendarioKey VARCHAR NOT NULL,
     DataCompleta TIMESTAMP NOT NULL,
     DiaDaSemana VARCHAR(10) NOT NULL,
     DiaDoMes INT NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE CALENDARIO (
 );
 
 CREATE TABLE CLIENTE (
-    ClienteKey INT NOT NULL,
+    ClienteKey VARCHAR NOT NULL,
     ClienteID INT NOT NULL,
     ClienteNome VARCHAR(255) NOT NULL,
     DataNascimento DATE NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE CLIENTE (
 );
 
 CREATE TABLE CLIENTE_ENDERECO (
-    EnderecoKey INT NOT NULL,
+    EnderecoKey VARCHAR NOT NULL,
     ClienteID INT NOT NULL,
     Logradouro VARCHAR(255) NOT NULL,
     Municipio VARCHAR(255) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE CLIENTE_ENDERECO (
 );
 
 CREATE TABLE SERVICO_TRANSACAO (
-    TransacaoKey INT NOT NULL,
+    TransacaoKey VARCHAR NOT NULL,
     ClienteID INT NOT NULL,
     ServicoID INT NOT NULL,
     TransacaoData TIMESTAMP NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE SERVICO_TRANSACAO (
 
 
 CREATE TABLE FUNCIONARIO (
-    FuncKey INT NOT NULL,
+    FuncKey VARCHAR NOT NULL,
     FuncID INT NOT NULL,
     Cargo VARCHAR(255) NOT NULL,
     FuncNome VARCHAR(255) NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE FUNCIONARIO (
 );
 
 CREATE TABLE PAGAMENTO (
-    PagtoKey INT NOT NULL,
+    PagtoKey VARCHAR NOT NULL,
     PagtoID INT NOT NULL,
     PagtoValor MONEY NOT NULL,
     PagtoData DATE NOT NULL,
