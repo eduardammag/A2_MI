@@ -10,14 +10,14 @@ VALUES
 -- Inserir dados fictícios na tabela Veiculo
 INSERT INTO Veiculo (IDVeiculo, Modelo, VeiculoTipo)
 VALUES 
-(1, 'Fiat Uno', 'Carro'),
-(2, 'Honda CG 150', 'Moto'),
-(3, 'Toyota Corolla', 'Carro'),
-(4, 'Yamaha YBR', 'Moto'),
-(5, 'Volkswagen Gol', 'Carro'),
-(6, 'Mercedes-Benz L-312', 'Ônibus'),
-(7, 'Volvo FH', 'Caminhão'),
-(8, 'Kombão', 'Motorhome');
+(1001, 'Fiat Uno', 'Carro'),
+(1002, 'Honda CG 150', 'Moto'),
+(1003, 'Toyota Corolla', 'Carro'),
+(1004, 'Yamaha YBR', 'Moto'),
+(1005, 'Volkswagen Gol', 'Carro'),
+(1006, 'Mercedes-Benz L-312', 'Ônibus'),
+(1007, 'Volvo FH', 'Caminhão'),
+(1008, 'Kombão', 'Motorhome');
 
 -- Inserir dados fictícios na tabela Sala
 INSERT INTO Sala (IDSala, CapacidadeMax)
