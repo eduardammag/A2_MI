@@ -160,6 +160,4 @@ INSERT INTO AulaTAluno (PresencaAluno, AulaID, AlunoID)
 VALUES 
 (1, 1, 1),
 (1, 2, 2),
-(1, 3, 3),
-(1, 4, 1),
-(1, 5, 5);
+(1, 3, 3);
