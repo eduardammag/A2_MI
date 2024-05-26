@@ -66,9 +66,9 @@ CREATE TABLE PAGAMENTO (
 
 CREATE TABLE DESPESAS (
     DespesaID INT NOT NULL,
-    FuncKey INT NOT NULL,
-    PagtoKey INT NOT NULL,
-    CalendarioKey INT NOT NULL,
+    FuncKey VARCHAR NOT NULL,
+    PagtoKey VARCHAR NOT NULL,
+    CalendarioKey VARCHAR NOT NULL,
     ValorGasto MONEY NOT NULL,
     PRIMARY KEY (DespesaID),
     FOREIGN KEY (FuncKey) REFERENCES FUNCIONARIO(FuncKey),
@@ -79,9 +79,9 @@ CREATE TABLE DESPESAS (
 CREATE TABLE RECEITA (
     ReceitaID INT NOT NULL,
     CalendarioKey INT,
-    ClienteKey INT,
-    EnderecoKey INT,
-    TransacaoKey INT,
+    ClienteKey VARCHAR,
+    EnderecoKey VARCHAR,
+    TransacaoKey VARCHAR,
     ValorRecebido DECIMAL(10, 2),
     Hora TIME,
     PRIMARY KEY (ReceitaID),
