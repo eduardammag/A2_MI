@@ -1,14 +1,16 @@
+set search_path=dw_eal;
+
+TRUNCATE table despesas CASCADE;
+TRUNCATE table receita CASCADE;
+
+TRUNCATE table calendario CASCADE;
+TRUNCATE table cliente CASCADE;
+TRUNCATE table cliente_endereco CASCADE;
+TRUNCATE table servico_transacao CASCADE;
+TRUNCATE table funcionario CASCADE;
+TRUNCATE table pagamento CASCADE;
+
 set search_path=oper_eal;
-
-TRUNCATE table calendario;
-TRUNCATE table cliente;
-TRUNCATE table cliente_endereco;
-TRUNCATE table servico_transacao;
-TRUNCATE table funcionario;
-TRUNCATE table pagamento;
-
-TRUNCATE table despesas;
-TRUNCATE table receita;
 
 INSERT INTO dw_eal.CALENDARIO (CalendarioKey, DataCompleta, DiaDaSemana, DiaDoMes, Mes, Trimestre, Ano)
 SELECT DISTINCT
@@ -77,7 +79,7 @@ INSERT INTO dw_eal.SERVICO_TRANSACAO (TransacaoKey, ClienteID, ServicoID, Transa
 SELECT
     gen_random_uuid(),
     AlunoID AS ClienteID,
-    ServicoID,
+    AlunoPaga.ServicoID,
     TransacaoData,
     ServicoTipo,
     ServicoValor,
@@ -88,7 +90,7 @@ JOIN ServicoAutoEsc ON AlunoPaga.ServicoID = ServicoAutoEsc.ServicoID;
 
 INSERT INTO dw_eal.DESPESAS (DespesaID, FuncKey, PagtoKey, CalendarioKey, ValorGasto)
 SELECT
-    gen_random_uuid(),
+    ROW_NUMBER() OVER () AS DespesaID,
     f.FuncKey,
     p.PagtoKey,
     EXTRACT(epoch FROM p.PagtoData)::BIGINT AS CalendarioKey,
@@ -99,7 +101,7 @@ JOIN dw_eal.FUNCIONARIO f ON p.FuncID = f.FuncID;
 
 INSERT INTO dw_eal.RECEITA (ReceitaID, CalendarioKey, ClienteKey, EnderecoKey, TransacaoKey, ValorRecebido, Hora)
 SELECT
-    gen_random_uuid(),
+    ROW_NUMBER() OVER () AS ReceitaID,
     EXTRACT(epoch FROM st.TransacaoData)::BIGINT AS CalendarioKey,
     c.ClienteKey,
     ce.EnderecoKey,

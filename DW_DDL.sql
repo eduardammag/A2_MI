@@ -78,11 +78,11 @@ CREATE TABLE DESPESAS (
 
 CREATE TABLE RECEITA (
     ReceitaID INT NOT NULL,
-    CalendarioKey INT,
+    CalendarioKey VARCHAR,
     ClienteKey VARCHAR,
     EnderecoKey VARCHAR,
     TransacaoKey VARCHAR,
-    ValorRecebido DECIMAL(10, 2),
+    ValorRecebido MONEY,
     Hora TIME,
     PRIMARY KEY (ReceitaID),
     FOREIGN KEY (CalendarioKey) REFERENCES CALENDARIO(CalendarioKey),
