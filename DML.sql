@@ -12,14 +12,14 @@ VALUES
 -- Inserir dados fictícios na tabela Veiculo
 INSERT INTO Veiculo (IDVeiculo, Modelo, VeiculoTipo)
 VALUES 
-(1001, 'Fiat Uno', 'Carro'),
-(1002, 'Honda CG 150', 'Moto'),
-(1003, 'Toyota Corolla', 'Carro'),
-(1004, 'Yamaha YBR', 'Moto'),
-(1005, 'Volkswagen Gol', 'Carro'),
-(1006, 'Mercedes-Benz L-312', 'Ônibus'),
-(1007, 'Volvo FH', 'Caminhão'),
-(1008, 'Kombão', 'Motorhome');
+(1, 'Fiat Uno', 'Carro'),
+(2, 'Honda CG 150', 'Moto'),
+(3, 'Toyota Corolla', 'Carro'),
+(4, 'Yamaha YBR', 'Moto'),
+(5, 'Volkswagen Gol', 'Carro'),
+(6, 'Mercedes-Benz L-312', 'Ônibus'),
+(7, 'Volvo FH', 'Caminhão'),
+(8, 'Kombão', 'Motorhome');
 
 -- Inserir dados fictícios na tabela Sala
 INSERT INTO Sala (IDSala, CapacidadeMax)
@@ -55,18 +55,18 @@ VALUES
 ('Aula Teórica', 50.00, 2, 'Aula teórica'),
 ('Aula Prática', 160.00, 3, 'Aula prática de direção'),
 ('Exames - Primeira Tentativa', 230.00, 4, 'Primeira marcação dos exames práticos e teóricos'),
-('Exame Teórico - Repetição', 150.00, 5, 'Repetição do exame teórico, em caso de reprovação'),
-('Exame Prático - Repetição', 250.00, 6, 'Repetição do exame prático de direção, em caso de reprovação'),
+('Exame Teórico - Repetição', 100.00, 5, 'Repetição do exame teórico, em caso de reprovação'),
+('Exame Prático - Repetição', 300.00, 6, 'Repetição do exame prático de direção, em caso de reprovação'),
 ('Duda', 315.00, 7, 'Taxa de imposto paga ao governo para realização dos exames');
 
 -- Inserir dados fictícios na tabela Pagamento
 INSERT INTO Pagamento (PagtoID, PagtoValor, PagtoData, FuncID)
 VALUES 
-(2001, 3000.00, '2024-02-05', 1),
-(2002, 3200.00, '2024-02-05', 2),
-(2003, 3400.00, '2024-02-05', 3),
-(2004, 3600.00, '2024-02-05', 4),
-(2005, 3800.00, '2024-02-05', 5);
+(1, 3000.00, '2024-02-05', 1),
+(2, 3200.00, '2024-02-05', 2),
+(3, 3400.00, '2024-02-05', 3),
+(4, 3600.00, '2024-02-05', 4),
+(5, 3800.00, '2024-02-05', 5);
 
 -- Inserir dados fictícios na tabela Exame
 INSERT INTO Exame (Status, ExameID, DtHrIni, DtHrFim, AlunoID, FuncID)
@@ -85,10 +85,10 @@ VALUES
 -- Inserir dados fictícios na tabela ExamePratico
 INSERT INTO ExamePratico (ExameID, IDVeiculo)
 VALUES 
-(7, 1004),
-(8, 1006),
-(9, 1001),
-(10, 1001);
+(7, 4),
+(8, 6),
+(9, 1),
+(10, 1);
 
 -- Inserir dados fictícios na tabela ExameTeorica
 INSERT INTO ExameTeorica (ExameID, IDSala)
@@ -154,8 +154,8 @@ VALUES
 -- Inserir dados fictícios na tabela VeiculoAula
 INSERT INTO VeiculoAula (DtHrInicio, DtHrFim, AulaID, IDVeiculo)
 VALUES 
-('2024-01-31 15:00:00', '2024-01-31 16:00:00', 4, 1002),
-('2024-02-10 17:00:00', '2024-02-10 18:00:00', 5, 1001);
+('2024-01-31 15:00:00', '2024-01-31 16:00:00', 4, 2),
+('2024-02-10 17:00:00', '2024-02-10 18:00:00', 5, 1);
 
 -- Inserir dados fictícios na tabela AulaTAluno
 INSERT INTO AulaTAluno (PresencaAluno, AulaID, AlunoID)
