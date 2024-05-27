@@ -3,6 +3,7 @@ create schema audit;
 set search_path=audit;
 
 CREATE TABLE audit.ins_Aluno AS SELECT * FROM oper_eal.Aluno WHERE 1=0;
+CREATE TABLE audit.ins_AlunoPaga AS SELECT * FROM oper_eal.Aluno WHERE 1=0;
 CREATE TABLE audit.ins_Veiculo AS SELECT * FROM oper_eal.Veiculo WHERE 1=0;
 CREATE TABLE audit.ins_Sala AS SELECT * FROM oper_eal.Sala WHERE 1=0;
 CREATE TABLE audit.ins_Tema AS SELECT * FROM oper_eal.Tema WHERE 1=0;
@@ -56,6 +57,10 @@ SET search_path = pg_catalog, audit;
 
 CREATE TRIGGER Aluno_insert_trg
 AFTER INSERT ON oper_eal.Aluno
+FOR EACH ROW EXECUTE PROCEDURE audit.ins_func_template();
+
+CREATE TRIGGER Aluno_Paga_insert_trg
+AFTER INSERT ON oper_eal.AlunoPaga
 FOR EACH ROW EXECUTE PROCEDURE audit.ins_func_template();
 
 CREATE TRIGGER Veiculo_insert_trg
