@@ -20,6 +20,7 @@ CREATE TABLE audit.ins_AulaTSala AS SELECT * FROM oper_eal.AulaTSala WHERE 1=0;
 CREATE TABLE audit.ins_VeiculoAula AS SELECT * FROM oper_eal.VeiculoAula WHERE 1=0;
 CREATE TABLE audit.ins_AulaTAluno AS SELECT * FROM oper_eal.AulaTAluno WHERE 1=0;
 
+CREATE TABLE audit.ins_CondutoresHabilitados AS SELECT * FROM oper_eal.CondutoresHabilitados WHERE 1=0;
 
 CREATE OR REPLACE FUNCTION audit.ins_func_template()
 RETURNS trigger AS $body$
@@ -114,6 +115,9 @@ CREATE TRIGGER AulaTAluno_insert_trg
 AFTER INSERT ON oper_eal.AulaTAluno
 FOR EACH ROW EXECUTE PROCEDURE audit.ins_func_template();
 
+CREATE TRIGGER CondutoresHabilitados_insert_trg
+AFTER INSERT ON oper_eal.CondutoresHabilitados
+FOR EACH ROW EXECUTE PROCEDURE audit.ins_func_template();
 
 
 CREATE OR REPLACE FUNCTION dw_eal.ins_AlunoPaga_func()
@@ -172,7 +176,7 @@ BEGIN
     VALUES (
         gen_random_uuid(),
         NEW.PagtoID,
-        NEW.PagtoValor,
+        NEW.PagtoValor,     
         NEW.PagtoData,
         NEW.FuncID
     );
@@ -189,12 +193,13 @@ FOR EACH ROW EXECUTE FUNCTION dw_eal.ins_Pagamento_func();
 CREATE OR REPLACE FUNCTION dw_eal.ins_Aluno_func()
 RETURNS trigger AS $$
 BEGIN
-    INSERT INTO dw_eal.CLIENTE (ClienteKey, ClienteID, ClienteNome, DataNascimento)
+    INSERT INTO dw_eal.CLIENTE (ClienteKey, ClienteID, ClienteNome, DataNascimento, ClienteSexo)
     VALUES (
         gen_random_uuid(),
         NEW.AlunoID,
         NEW.AlunoNome,
-        NEW.DataNascimento
+        NEW.DataNascimento,
+        NEW.AlunoSexo
     );
 
     INSERT INTO dw_eal.CLIENTE_ENDERECO (EnderecoKey, ClienteID, Logradouro, Municipio, Bairro, Estado)
@@ -214,7 +219,6 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER ins_Aluno_trigger
 AFTER INSERT ON oper_eal.Aluno
 FOR EACH ROW EXECUTE FUNCTION dw_eal.ins_Aluno_func();
-
 
 
 CREATE OR REPLACE FUNCTION dw_eal.ins_Funcionario_func()

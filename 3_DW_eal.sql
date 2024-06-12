@@ -19,6 +19,7 @@ CREATE TABLE CLIENTE (
     ClienteID INT NOT NULL,
     ClienteNome VARCHAR(255) NOT NULL,
     DataNascimento DATE NOT NULL,
+    ClienteSexo CHAR(1) NOT NULL,
     PRIMARY KEY (ClienteKey)
 );
 
@@ -92,3 +93,12 @@ CREATE TABLE RECEITA (
     FOREIGN KEY (EnderecoKey) REFERENCES CLIENTE_ENDERECO(EnderecoKey),
     FOREIGN KEY (TransacaoKey) REFERENCES SERVICO_TRANSACAO(TransacaoKey)
 );
+
+CREATE TABLE CONDUTORESHABILITADOS (
+    UF CHAR(2) NOT NULL,
+    Sexo CHAR(1) NOT NULL,
+    FaixaEtaria VARCHAR(255) NOT NULL,
+    CategoriaHabilitacao VARCHAR(255) NOT NULL,
+    Quantidade INT NOT NULL,
+);
+
