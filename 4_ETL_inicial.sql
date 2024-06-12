@@ -10,6 +10,8 @@ TRUNCATE table servico_transacao;
 TRUNCATE table funcionario;
 TRUNCATE table pagamento;
 
+TRUNCATE table condutoreshabilitados;
+
 set search_path=oper_eal;
 
 INSERT INTO dw_eal.CALENDARIO (CalendarioKey, DataCompleta, DiaDaSemana, DiaDoMes, Mes, Trimestre, Ano)
@@ -36,12 +38,13 @@ SELECT DISTINCT
 FROM Pagamento;
 
 
-INSERT INTO dw_eal.CLIENTE (ClienteKey, ClienteID, ClienteNome, DataNascimento)
+INSERT INTO dw_eal.CLIENTE (ClienteKey, ClienteID, ClienteNome, DataNascimento, ClienteSexo)
 SELECT
     gen_random_uuid(),
     AlunoID AS ClienteID,
     AlunoNome AS ClienteNome,
-    DataNascimento
+    DataNascimento,
+    AlunoSexo AS ClienteSexo
 FROM Aluno;
 
 
@@ -113,3 +116,15 @@ SELECT
 FROM dw_eal.SERVICO_TRANSACAO st
 JOIN dw_eal.CLIENTE c ON st.ClienteID = c.ClienteID
 JOIN dw_eal.CLIENTE_ENDERECO ce ON st.ClienteID = ce.ClienteID;
+
+
+INSERT INTO dw_eal.CONDUTORESHABILITADOS (CondKey, CondID, UF, Sexo, FaixaEtaria, CategoriaHabilitacao, Quantidade)
+SELECT
+    gen_random_uuid(),
+    CondID,
+    UF,
+    Sexo,
+    FaixaEtaria,
+    CategoriaHabilitacao,
+    Quantidade
+FROM CONDUTORESHABILITADOS;
