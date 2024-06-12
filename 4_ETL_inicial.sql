@@ -1,16 +1,17 @@
 set search_path=dw_eal;
 
-TRUNCATE table despesas;
-TRUNCATE table receita;
+TRUNCATE table despesas CASCADE;
+TRUNCATE table receita CASCADE;
 
-TRUNCATE table calendario;
-TRUNCATE table cliente;
-TRUNCATE table cliente_endereco;
-TRUNCATE table servico_transacao;
-TRUNCATE table funcionario;
-TRUNCATE table pagamento;
+TRUNCATE table calendario CASCADE;
+TRUNCATE table cliente CASCADE;
+TRUNCATE table cliente_endereco CASCADE;
+TRUNCATE table servico_transacao CASCADE;
+TRUNCATE table funcionario CASCADE;
+TRUNCATE table pagamento CASCADE;
 
-TRUNCATE table condutoreshabilitados;
+TRUNCATE table condutoreshabilitados CASCADE;
+TRUNCATE table ANALISECLIENTES CASCADE;
 
 set search_path=oper_eal;
 
@@ -44,7 +45,7 @@ SELECT
     AlunoID AS ClienteID,
     AlunoNome AS ClienteNome,
     DataNascimento,
-    AlunoSexo AS ClienteSexo
+    Sexo AS ClienteSexo
 FROM Aluno;
 
 
@@ -118,10 +119,9 @@ JOIN dw_eal.CLIENTE c ON st.ClienteID = c.ClienteID
 JOIN dw_eal.CLIENTE_ENDERECO ce ON st.ClienteID = ce.ClienteID;
 
 
-INSERT INTO dw_eal.CONDUTORESHABILITADOS (CondKey, CondID, UF, Sexo, FaixaEtaria, CategoriaHabilitacao, Quantidade)
+INSERT INTO dw_eal.CONDUTORESHABILITADOS (CondKey, UF, Sexo, FaixaEtaria, CategoriaHabilitacao, Quantidade)
 SELECT
     gen_random_uuid(),
-    CondID,
     UF,
     Sexo,
     FaixaEtaria,
@@ -139,5 +139,5 @@ SELECT
     COUNT(CASE WHEN c.ClienteSexo = 'F' THEN 1 END) / COUNT(*)::DECIMAL AS PropClientesMulheres
 FROM dw_eal.CLIENTE c
 JOIN dw_eal.CLIENTE_ENDERECO ce ON c.ClienteID = ce.ClienteID
-JOIN dw_eal.CONDUTORESHABILITADOS ch ON c.Estado = ch.UF
+JOIN dw_eal.CONDUTORESHABILITADOS ch ON ce.Estado = ch.UF
 GROUP BY c.ClienteKey, ch.CondKey, ce.EnderecoKey;

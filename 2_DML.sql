@@ -1001,4 +1001,4 @@ VALUES
 (833, 'SP', 'F', '101 a 120', 'B-Condutor Carro', 2643),
 (834, 'SP', 'F', '101 a 120', 'C-Condutor Caminhão', 5),
 (835, 'SP', 'F', '101 a 120', 'D-Condutor Ônibus', 1),
-(836, 'SP', 'F', 'Mais de 120', 'AB-Condutor Moto/Carro', 1)
+(836, 'SP', 'F', 'Mais de 120', 'AB-Condutor Moto/Carro', 1);
