@@ -128,3 +128,16 @@ SELECT
     CategoriaHabilitacao,
     Quantidade
 FROM CONDUTORESHABILITADOS;
+
+INSERT INTO dw_eal.ANALISECLIENTES (ClienteID, ClienteKey, CondKey, EnderecoKey, PropGeralMulheres, PropClientesMulheres)
+SELECT
+    c.ClienteID,
+    c.ClienteKey,
+    ch.CondKey,
+    ce.EnderecoKey,
+    COUNT(CASE WHEN ch.Sexo = 'F' THEN 1 END) / COUNT(*)::DECIMAL AS PropGeralMulheres,
+    COUNT(CASE WHEN c.ClienteSexo = 'F' THEN 1 END) / COUNT(*)::DECIMAL AS PropClientesMulheres
+FROM dw_eal.CLIENTE c
+JOIN dw_eal.CLIENTE_ENDERECO ce ON c.ClienteID = ce.ClienteID
+JOIN dw_eal.CONDUTORESHABILITADOS ch ON c.Estado = ch.UF
+GROUP BY c.ClienteKey, ch.CondKey, ce.EnderecoKey;

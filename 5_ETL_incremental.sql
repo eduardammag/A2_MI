@@ -120,6 +120,7 @@ AFTER INSERT ON oper_eal.CondutoresHabilitados
 FOR EACH ROW EXECUTE PROCEDURE audit.ins_func_template();
 
 
+
 CREATE OR REPLACE FUNCTION dw_eal.ins_AlunoPaga_func()
 RETURNS trigger AS $$
 BEGIN
@@ -154,7 +155,6 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER ins_AlunoPaga_trigger
 AFTER INSERT ON oper_eal.AlunoPaga
 FOR EACH ROW EXECUTE FUNCTION dw_eal.ins_AlunoPaga_func();
-
 
 
 CREATE OR REPLACE FUNCTION dw_eal.ins_Pagamento_func()
@@ -211,6 +211,19 @@ BEGIN
         NEW.Bairro,
         NEW.Estado
     );
+
+    INSERT INTo dw_eal.ANALISECLIENTES (ClienteID, ClienteKey, CondKey, EnderecoKey, PropGeralMulheres, PropClientesMulheres)
+    SELECT
+        NEW.AlunoID,
+        c.ClienteKey,
+        ce.EnderecoKey,
+        ch.CondKey,
+        COUNT(CASE WHEN c.ClienteSexo = 'F' THEN 1 END) / COUNT(*) AS PropGeralMulheres,
+        COUNT(CASE WHEN c.ClienteSexo = 'F' THEN 1 END) / COUNT(*) AS PropClientesMulheres
+    FROM dw_eal.CLIENTE c
+    JOIN dw_eal.CLIENTE_ENDERECO ce ON NEW.AlunoID = ce.ClienteID
+    Join oper_eal.CondutoresHabilitados ch ON NEW.Estado = ch.UF
+    WHERE NEW.AlunoID = c.ClienteID;
 
     RETURN NEW;
 END;
