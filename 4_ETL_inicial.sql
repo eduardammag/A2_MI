@@ -10,9 +10,6 @@ TRUNCATE table servico_transacao CASCADE;
 TRUNCATE table funcionario CASCADE;
 TRUNCATE table pagamento CASCADE;
 
-TRUNCATE table condutoreshabilitados CASCADE;
-TRUNCATE table ANALISECLIENTES CASCADE;
-
 set search_path=oper_eal;
 
 INSERT INTO dw_eal.CALENDARIO (CalendarioKey, DataCompleta, DiaDaSemana, DiaDoMes, Mes, Trimestre, Ano)
@@ -39,14 +36,48 @@ SELECT DISTINCT
 FROM Pagamento;
 
 
-INSERT INTO dw_eal.CLIENTE (ClienteKey, ClienteID, ClienteNome, DataNascimento, ClienteSexo)
+
+INSERT INTO dw_eal.CLIENTE (ClienteKey, ClienteID, ClienteNome, DataNascimento, ClienteSexo, ClienteDesconto)
+WITH CondutoresPorUF AS (
+    SELECT
+        UF,
+        Sexo,
+        SUM(Quantidade) AS Quantidade
+    FROM CondutoresHabilitados
+    GROUP BY UF, Sexo
+),
+CondutoresM_F AS (
+    SELECT
+        a.UF,
+        COALESCE(a.Quantidade, 0) AS M,
+        COALESCE(b.Quantidade, 0) AS F
+    FROM (SELECT UF, Quantidade FROM CondutoresPorUF WHERE Sexo = 'M') a
+    LEFT JOIN (SELECT UF, Quantidade FROM CondutoresPorUF WHERE Sexo = 'F') b
+    ON a.UF = b.UF
+), DescontoPorUF AS (
+    SELECT
+        UF,
+        CASE
+            WHEN F = 0 THEN 0
+            -- ELSE alpha * GREATEST(1 - (F/M), 0)
+            ELSE alpha * GREATEST(1 - CAST(F AS FLOAT ) / CAST(M AS FLOAT), 0)
+        END AS Desconto
+    FROM CondutoresM_F,
+    (SELECT 0.4 AS alpha) params
+)
 SELECT
     gen_random_uuid(),
     AlunoID AS ClienteID,
     AlunoNome AS ClienteNome,
     DataNascimento,
-    Sexo AS ClienteSexo
-FROM Aluno;
+    Sexo AS ClienteSexo,
+    CASE 
+        WHEN Sexo = 'F' THEN d.Desconto
+        ELSE 0
+    END AS ClienteDesconto
+FROM Aluno a
+LEFT JOIN DescontoPorUF d
+ON a.Estado = d.UF;
 
 
 INSERT INTO dw_eal.CLIENTE_ENDERECO (EnderecoKey, ClienteID, Logradouro, Municipio, Bairro, Estado)
@@ -102,8 +133,7 @@ SELECT
 FROM dw_eal.PAGAMENTO p
 JOIN dw_eal.FUNCIONARIO f ON p.FuncID = f.FuncID;
 
-
-INSERT INTO dw_eal.RECEITA (ClienteID, ServicoID, TransacaoData, CalendarioKey, ClienteKey, EnderecoKey, TransacaoKey, ValorRecebido, Hora)
+INSERT INTO dw_eal.RECEITA (ClienteID, ServicoID, TransacaoData, CalendarioKey, ClienteKey, EnderecoKey, TransacaoKey, ReceitaSemDesconto, ReceitaComDesconto, PorcentagemDesconto, Hora)
 SELECT
     st.ClienteID,
     st.ServicoID,
@@ -112,32 +142,10 @@ SELECT
     c.ClienteKey,
     ce.EnderecoKey,
     st.TransacaoKey,
-    st.ServicoValor * st.Quantidade AS ValorRecebido,
+    st.ServicoValor * st.Quantidade AS ReceitaSemDesconto,
+    st.ServicoValor * st.Quantidade - st.ServicoValor * st.Quantidade * c.ClienteDesconto AS ReceitaComDesconto,
+    c.ClienteDesconto AS PorcentagemDesconto,
     TO_CHAR(st.TransacaoData, 'HH24:MI:SS')::TIME AS Hora
 FROM dw_eal.SERVICO_TRANSACAO st
 JOIN dw_eal.CLIENTE c ON st.ClienteID = c.ClienteID
 JOIN dw_eal.CLIENTE_ENDERECO ce ON st.ClienteID = ce.ClienteID;
-
-
-INSERT INTO dw_eal.CONDUTORESHABILITADOS (CondKey, UF, Sexo, FaixaEtaria, CategoriaHabilitacao, Quantidade)
-SELECT
-    gen_random_uuid(),
-    UF,
-    Sexo,
-    FaixaEtaria,
-    CategoriaHabilitacao,
-    Quantidade
-FROM CONDUTORESHABILITADOS;
-
-INSERT INTO dw_eal.ANALISECLIENTES (ClienteID, ClienteKey, CondKey, EnderecoKey, PropGeralMulheres, PropClientesMulheres)
-SELECT
-    c.ClienteID,
-    c.ClienteKey,
-    ch.CondKey,
-    ce.EnderecoKey,
-    COUNT(CASE WHEN ch.Sexo = 'F' THEN 1 END) / COUNT(*)::DECIMAL AS PropGeralMulheres,
-    COUNT(CASE WHEN c.ClienteSexo = 'F' THEN 1 END) / COUNT(*)::DECIMAL AS PropClientesMulheres
-FROM dw_eal.CLIENTE c
-JOIN dw_eal.CLIENTE_ENDERECO ce ON c.ClienteID = ce.ClienteID
-JOIN dw_eal.CONDUTORESHABILITADOS ch ON ce.Estado = ch.UF
-GROUP BY c.ClienteKey, ch.CondKey, ce.EnderecoKey;
