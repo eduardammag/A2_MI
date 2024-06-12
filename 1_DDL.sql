@@ -17,6 +17,7 @@ CREATE TABLE Aluno
     Bairro VARCHAR(255) NOT NULL,
     Estado CHAR(2) NOT NULL,
     AlunoID INT NOT NULL,
+    Sexo CHAR(1) NOT NULL,
     PRIMARY KEY (AlunoID),
     UNIQUE (AlunoCPF),
     UNIQUE (AlunoEmail)
@@ -178,4 +179,15 @@ CREATE TABLE AulaTAluno
     PRIMARY KEY (AulaID, AlunoID),
     FOREIGN KEY (AulaID) REFERENCES AulaTeorica(AulaID),
     FOREIGN KEY (AlunoID) REFERENCES Aluno(AlunoID)
+);
+
+CREATE TABLE CondutoresHabilitados
+(
+    CondID INT NOT NULL,
+    UF CHAR(2) NOT NULL,
+    Sexo CHAR(1) NOT NULL,
+    FaixaEtaria VARCHAR(255) NOT NULL,
+    CategoriaHabilitacao VARCHAR(255) NOT NULL,
+    Quantidade INT NOT NULL,
+    PRIMARY KEY (CondID)
 );
