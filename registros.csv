@@ -1,0 +1,36 @@
+AlunoCPF,AlunoSenha,AlunoNome,AlunoEmail,AlunoCelular,DataNascimento,Logradouro,Municipio,Bairro,Estado,AlunoID,Sexo
+12345678901,senha123,João Silva,joao.silva@email.com,11111111111,2000-01-01,"Rua A, 123",São Paulo,Centro,SP,1,M
+23456789012,senha456,Maria Oliveira,maria.oliveira@email.com,22222222222,1995-05-10,"Rua B, 456",Rio de Janeiro,Copacabana,RJ,2,F
+34567890123,senha789,Pedro Souza,pedro.souza@email.com,33333333333,1998-03-15,"Rua C, 789",Belo Horizonte,Savassi,MG,3,M
+45678901234,senha321,Ana Lima,ana.lima@email.com,44444444444,2001-07-20,"Rua D, 321",Niterói,Batel,RJ,4,F
+56789012345,senha654,Carlos Santos,carlos.santos@email.com,55555555555,1997-12-30,"Rua E, 654",Juiz de Fora,Centro,MG,5,M
+67890123456,senha987,Lucas Pereira,lucas.pereira@email.com,66666666666,1996-04-05,"Rua F, 987",São Paulo,Moema,SP,6,M
+78901234567,senha432,Julio Almeida,julio.almeida@email.com,77777777777,2002-08-12,"Rua G, 432",Petropolis,Centro,RJ,7,M
+89012345678,senha111,Marcos Ferreira,marcos.ferreira@email.com,88888888888,1993-11-23,"Rua H, 111",Vitória,Jardim Camburi,ES,8,M
+90123456789,senha222,Bruno Costa,bruno.costa@email.com,99999999999,1999-02-14,"Rua I, 222",São Paulo,Vila Mariana,SP,9,M
+01234567890,senha333,Gabriela Rocha,gabriela.rocha@email.com,10101010101,1994-10-25,"Rua J, 333",Rio de Janeiro,Leblon,RJ,10,F
+12345098765,senha444,Renato Carvalho,renato.carvalho@email.com,12121212121,1992-06-18,"Rua K, 444",Santos,Gonzaga,SP,11,M
+23456109876,senha555,Fernando Martins,fernando.martins@email.com,13131313131,1991-03-27,"Rua L, 555",Rio de Janeiro,Catete,RJ,12,M
+34567210988,senha666,Vinícius Teixeira,vinicius.teixeira@email.com,14141414141,1998-09-19,"Rua M, 666",Uberlândia,Fundinho,MG,13,M
+45670321099,senha777,Amanda Rodrigues,amanda.rodrigues@email.com,15151515151,2000-12-10,"Rua N, 777",Guarulhos,Centro,SP,14,F
+56789032110,senha888,Felipe Gomes,felipe.gomes@email.com,16161616161,1997-05-05,"Rua O, 888",Ribeirão Preto,Jardim Botânico,SP,15,M
+67890543211,senha999,Leonardo Melo,leonardo.melo@email.com,17171717171,1996-01-16,"Rua P, 999",São José dos Campos,Jardim Satélite,SP,16,M
+78901654322,senha000,Paulo Freitas,paulo.freitas@email.com,18181818181,1995-07-30,"Rua Q, 000",Belo Horizonte,Lourdes,MG,17,M
+89012765433,senha1111,André Barbosa,andre.barbosa@email.com,19191919191,1993-03-05,"Rua R, 1111",São Paulo,Pinheiros,SP,18,M
+90123876543,senha2222,Isabela Pinto,isabela.pinto@email.com,20202020202,1990-08-15,"Rua S, 2222",Vitória,Praia do Canto,ES,19,F
+01234987655,senha3333,Thiago Ribeiro,thiago.ribeiro@email.com,21212121212,1999-09-19,"Rua T, 3333",São Bernardo do Campo,Centro,SP,20,M
+12345098766,senha4444,Camila Nascimento,camila.nascimento@email.com,22222222222,1992-10-22,"Rua U, 4444",Jundiaí,Centro,SP,21,F
+23456109810,senha5555,Rodrigo Santos,rodrigo.santos@email.com,23232323232,1995-12-28,"Rua V, 5555",Rio de Janeiro,Ipanema,RJ,22,M
+34567210980,senha6666,Larissa Alves,larissa.alves@email.com,24242424242,1998-06-14,"Rua W, 6666",São Paulo,Jardins,SP,23,F
+45678321099,senha7777,Matheus Lima,matheus.lima@email.com,25252525252,2001-11-20,"Rua X, 7777",Niterói,Icaraí,RJ,24,M
+56789432109,senha8888,Renato Moura,renato.moura@email.com,26262626262,1994-04-09,"Rua Y, 8888",Belo Horizonte,Pampulha,MG,25,M
+67890543210,senha9999,Gustavo Silva,gustavo.silva@email.com,27272727272,1997-02-02,"Rua Z, 9999",Campinas,Barão Geraldo,SP,26,M
+78901654321,senha0000,Beatriz Vieira,beatriz.vieira@email.com,28282828282,1991-05-18,"Rua AA, 0000",São Paulo,Perdizes,SP,27,F
+89012765432,senha1112,Eduardo Mendes,eduardo.mendes@email.com,29292929292,1992-09-23,"Rua BB, 1112",Vitória,Mata da Praia,ES,28,M
+90123876544,senha2223,Vanessa Araújo,vanessa.araujo@email.com,30303030303,1996-12-17,"Rua CC, 2223",São Paulo,Liberdade,SP,29,F
+01234987654,senha3334,Diego Santana,diego.santana@email.com,31313131313,1999-07-06,"Rua DD, 3334",Rio de Janeiro,Barra da Tijuca,RJ,30,M
+12345098768,senha4445,Letícia Souza,leticia.souza@email.com,32323232323,2000-11-25,"Rua EE, 4445",Belo Horizonte,Sion,MG,31,F
+23456109877,senha5556,Lucas Martins,lucas.martins@email.com,33333333333,1997-04-10,"Rua FF, 5556",Campinas,Cambuí,SP,32,M
+34567210987,senha6667,Carolina Costa,carolina.costa@email.com,34343434343,1993-08-22,"Rua GG, 6667",São Paulo,Brooklin,SP,33,F
+45678321098,senha7778,Fernando Correia,fernando.correia@email.com,35353535353,1996-01-30,"Rua HH, 7778",Rio de Janeiro,Flamengo,RJ,34,M
+56789432110,senha8889,Mariana Barbosa,mariana.barbosa@email.com,36363636363,1992-10-11,"Rua II, 8889",Belo Horizonte,Funcionários,MG,35,F
