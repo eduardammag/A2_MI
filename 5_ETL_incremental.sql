@@ -20,7 +20,6 @@ CREATE TABLE audit.ins_AulaTSala AS SELECT * FROM oper_eal.AulaTSala WHERE 1=0;
 CREATE TABLE audit.ins_VeiculoAula AS SELECT * FROM oper_eal.VeiculoAula WHERE 1=0;
 CREATE TABLE audit.ins_AulaTAluno AS SELECT * FROM oper_eal.AulaTAluno WHERE 1=0;
 
-CREATE TABLE audit.ins_CondutoresHabilitados AS SELECT * FROM oper_eal.CondutoresHabilitados WHERE 1=0;
 
 CREATE OR REPLACE FUNCTION audit.ins_func_template()
 RETURNS trigger AS $body$
@@ -46,7 +45,6 @@ EXCEPTION
         RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [UNIQUE] - SQLSTATE: %, SQLERRM: %', SQLSTATE, SQLERRM;
         RETURN NULL;
     WHEN others THEN
-        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [OTHER] - SQLSTATE: %, SQLERRM: %', SQLSTATE, SQLERRM;
         RETURN NULL;
 END;
 $body$
@@ -115,10 +113,6 @@ CREATE TRIGGER AulaTAluno_insert_trg
 AFTER INSERT ON oper_eal.AulaTAluno
 FOR EACH ROW EXECUTE PROCEDURE audit.ins_func_template();
 
-CREATE TRIGGER CondutoresHabilitados_insert_trg
-AFTER INSERT ON oper_eal.CondutoresHabilitados
-FOR EACH ROW EXECUTE PROCEDURE audit.ins_func_template();
-
 
 
 CREATE OR REPLACE FUNCTION dw_eal.ins_AlunoPaga_func()
@@ -157,6 +151,7 @@ AFTER INSERT ON oper_eal.AlunoPaga
 FOR EACH ROW EXECUTE FUNCTION dw_eal.ins_AlunoPaga_func();
 
 
+
 CREATE OR REPLACE FUNCTION dw_eal.ins_Pagamento_func()
 RETURNS trigger AS $$
 BEGIN
@@ -176,7 +171,7 @@ BEGIN
     VALUES (
         gen_random_uuid(),
         NEW.PagtoID,
-        NEW.PagtoValor,     
+        NEW.PagtoValor,
         NEW.PagtoData,
         NEW.FuncID
     );
@@ -192,14 +187,23 @@ FOR EACH ROW EXECUTE FUNCTION dw_eal.ins_Pagamento_func();
 
 CREATE OR REPLACE FUNCTION dw_eal.ins_Aluno_func()
 RETURNS trigger AS $$
+DECLARE
+    Desconto float;
 BEGIN
-    INSERT INTO dw_eal.CLIENTE (ClienteKey, ClienteID, ClienteNome, DataNascimento, ClienteSexo)
+    IF NEW.Sexo = 'F' THEN
+        Desconto := 0.14190398819665512;
+    ELSE
+        Desconto := 0;
+    END IF;
+
+    INSERT INTO dw_eal.CLIENTE (ClienteKey, ClienteID, ClienteNome, DataNascimento, ClienteSexo, ClienteDesconto)
     VALUES (
         gen_random_uuid(),
         NEW.AlunoID,
         NEW.AlunoNome,
         NEW.DataNascimento,
-        NEW.AlunoSexo
+        NEW.Sexo,
+        Desconto
     );
 
     INSERT INTO dw_eal.CLIENTE_ENDERECO (EnderecoKey, ClienteID, Logradouro, Municipio, Bairro, Estado)
@@ -212,19 +216,6 @@ BEGIN
         NEW.Estado
     );
 
-    INSERT INTo dw_eal.ANALISECLIENTES (ClienteID, ClienteKey, CondKey, EnderecoKey, PropGeralMulheres, PropClientesMulheres)
-    SELECT
-        NEW.AlunoID,
-        c.ClienteKey,
-        ce.EnderecoKey,
-        ch.CondKey,
-        COUNT(CASE WHEN c.ClienteSexo = 'F' THEN 1 END) / COUNT(*) AS PropGeralMulheres,
-        COUNT(CASE WHEN c.ClienteSexo = 'F' THEN 1 END) / COUNT(*) AS PropClientesMulheres
-    FROM dw_eal.CLIENTE c
-    JOIN dw_eal.CLIENTE_ENDERECO ce ON NEW.AlunoID = ce.ClienteID
-    Join oper_eal.CondutoresHabilitados ch ON NEW.Estado = ch.UF
-    WHERE NEW.AlunoID = c.ClienteID;
-
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -232,6 +223,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER ins_Aluno_trigger
 AFTER INSERT ON oper_eal.Aluno
 FOR EACH ROW EXECUTE FUNCTION dw_eal.ins_Aluno_func();
+
 
 
 CREATE OR REPLACE FUNCTION dw_eal.ins_Funcionario_func()
@@ -281,7 +273,7 @@ FOR EACH ROW EXECUTE FUNCTION dw_eal.ins_Despesas_func();
 CREATE OR REPLACE FUNCTION dw_eal.ins_Receita_func()
 RETURNS trigger AS $$
 BEGIN
-    INSERT INTO dw_eal.RECEITA (ClienteID, ServicoID, TransacaoData, CalendarioKey, ClienteKey, EnderecoKey, TransacaoKey, ValorRecebido, Hora)
+    INSERT INTO dw_eal.RECEITA (ClienteID, ServicoID, TransacaoData, CalendarioKey, ClienteKey, EnderecoKey, TransacaoKey, ReceitaSemDesconto, ReceitaComDesconto, PorcentagemDesconto, Hora)
     SELECT
         NEW.ClienteID,
         NEW.ServicoID,
@@ -290,7 +282,11 @@ BEGIN
         c.ClienteKey,
         ce.EnderecoKey,
         NEW.TransacaoKey,
-        NEW.ServicoValor * NEW.Quantidade AS ValorRecebido,
+
+        NEW.ServicoValor * NEW.Quantidade AS ReceitaSemDesconto,
+        NEW.ServicoValor * NEW.Quantidade - NEw.ServicoValor * NEW.Quantidade * c.ClienteDesconto AS ReceitaComDesconto,
+        c.ClienteDesconto AS PorcentagemDesconto,
+
         TO_CHAR(NEW.TransacaoData, 'HH24:MI:SS')::TIME AS Hora
     FROM dw_eal.CLIENTE c
     JOIN dw_eal.CLIENTE_ENDERECO ce ON NEW.ClienteID = ce.ClienteID

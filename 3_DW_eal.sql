@@ -20,6 +20,7 @@ CREATE TABLE CLIENTE (
     ClienteNome VARCHAR(255) NOT NULL,
     DataNascimento DATE NOT NULL,
     ClienteSexo CHAR(1) NOT NULL,
+    ClienteDesconto FLOAT NOT NULL,
     PRIMARY KEY (ClienteKey)
 );
 
@@ -85,34 +86,13 @@ CREATE TABLE RECEITA (
     ClienteKey VARCHAR NOT NULL,
     EnderecoKey VARCHAR NOT NULL,
     TransacaoKey VARCHAR NOT NULL,
-    ValorRecebido MONEY NOT NULL,
+    ReceitaSemDesconto MONEY NOT NULL,
+    ReceitaComDesconto MONEY NOT NULL,
+    PorcentagemDesconto FLOAT NOT NULL,
     Hora TIME,
     PRIMARY KEY (ClienteID, ServicoID, TransacaoData),
     FOREIGN KEY (CalendarioKey) REFERENCES CALENDARIO(CalendarioKey),
     FOREIGN KEY (ClienteKey) REFERENCES CLIENTE(ClienteKey),
     FOREIGN KEY (EnderecoKey) REFERENCES CLIENTE_ENDERECO(EnderecoKey),
     FOREIGN KEY (TransacaoKey) REFERENCES SERVICO_TRANSACAO(TransacaoKey)
-);
-
-CREATE TABLE CONDUTORESHABILITADOS (
-    CondKey VARCHAR NOT NULL,
-    UF CHAR(2) NOT NULL,
-    Sexo CHAR(1) NOT NULL,
-    FaixaEtaria VARCHAR(255) NOT NULL,
-    CategoriaHabilitacao VARCHAR(255) NOT NULL,
-    Quantidade INT NOT NULL,
-    PRIMARY KEY (CondKey)
-);
-
-CREATE TABLE ANALISECLIENTES (
-    ClienteID INT NOT NULL,
-    ClienteKey VARCHAR NOT NULL,
-    CondKey VARCHAR NOT NULL,
-    EnderecoKey VARCHAR NOT NULL,
-    PropGeralMulheres DECIMAL NOT NULL,
-    PropClientesMulheres DECIMAL NOT NULL,
-    PRIMARY KEY (ClienteID),
-    FOREIGN KEY (CondKey) REFERENCES CONDUTORESHABILITADOS(CondKey),
-    FOREIGN KEY (ClienteKey) REFERENCES CLIENTE(ClienteKey),
-    FOREIGN KEY (EnderecoKey) REFERENCES CLIENTE_ENDERECO(EnderecoKey)
 );
